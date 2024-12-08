@@ -1,0 +1,33 @@
+replicaCount: 1
+
+image:
+  repository: judge0/api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+redis:
+  host: redis
+  port: 6379
+  password: "your-redis-password"
+
+postgresql:
+  host: db
+  port: 5432
+  user: judge0
+  password: "your-postgres-password"
+  database: judge0
+
+config:
+  JUDGE0_TELEMETRY_ENABLE: false
+  ENABLE_WAIT_RESULT: true
+  ENABLE_COMPILER_OPTIONS: true
+  ENABLE_COMMAND_LINE_ARGUMENTS: true
+  SUBMISSION_CACHE_DURATION: 1
+  INTERVAL: 0.1
+  COUNT: 2
+  MAX_QUEUE_SIZE: 100
+  RAILS_ENV: production
