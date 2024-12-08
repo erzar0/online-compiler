@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: judge0/api
+  repository: erzar0/judge0
   tag: latest
   pullPolicy: IfNotPresent
 
