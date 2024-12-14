@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
   name                     = "primary"
-  location                 = "europe-central2-c"
+  location                 = var.zone
   remove_default_node_pool = true
   initial_node_count       = 1
   network                  = google_compute_network.main.self_link
@@ -23,7 +23,7 @@ resource "google_container_cluster" "primary" {
   }
 
   workload_identity_config {
-    workload_pool = "agh-project-443322.svc.id.goog"
+    workload_pool = "${var.project_id}.svc.id.goog"
   }
 
   ip_allocation_policy {
