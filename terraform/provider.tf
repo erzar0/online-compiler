@@ -13,11 +13,21 @@ terraform {
       source  = "hashicorp/random"
       version = "3.6.3"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.16.1"
+    }
   }
 }
 
 provider "google" {
-  project = "agh-project-443322"
-  region  = "europe-central2"
-  zone    = "europe-central2-c"
+  project = var.project_id
+  region  = var.region
+  zone    = var.zone
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }

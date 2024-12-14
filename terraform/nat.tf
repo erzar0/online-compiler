@@ -1,7 +1,7 @@
 resource "google_compute_router_nat" "nat" {
   name   = "nat"
   router = google_compute_router.router.name
-  region = "europe-central2"
+  region = var.region
 
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
   nat_ip_allocate_option             = "MANUAL_ONLY"
@@ -15,7 +15,7 @@ resource "google_compute_router_nat" "nat" {
 }
 
 resource "google_compute_address" "nat" {
-  name         = "nat"
+  name         = var.nat_ip_name
   address_type = "EXTERNAL"
   network_tier = "PREMIUM"
 

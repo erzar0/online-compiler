@@ -1,34 +1,31 @@
 resource "google_compute_global_address" "postgres_private_ip_address" {
-  provider      = google
   name          = "postgres-private-ip-address"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
   network       = google_compute_network.main.id
-  project       = "agh-project-443322"
+  project       = var.project_id
 }
-
-resource "google_service_networking_connection" "postgres_private_vpc_connection" {
-  provider                = google
-  network                 = google_compute_network.main.id
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_global_address.postgres_private_ip_address.name]
-}
-
 
 resource "google_project_service" "servicenetworking" {
   service = "servicenetworking.googleapis.com"
 }
 
+resource "google_service_networking_connection" "postgres_private_vpc_connection" {
+  network                 = google_compute_network.main.id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.postgres_private_ip_address.name]
+}
+
 resource "google_sql_database_instance" "postgres_instance" {
   name                = "postgres-instance"
-  project             = "agh-project-443322"
+  project             = var.project_id
   database_version    = "POSTGRES_15"
-  region              = "europe-central2"
+  region              = var.region
   deletion_protection = false
 
   settings {
-    tier = "db-f1-micro"
+    tier = var.db_instance_tier
 
     backup_configuration {
       enabled = false
@@ -40,7 +37,11 @@ resource "google_sql_database_instance" "postgres_instance" {
       enable_private_path_for_google_cloud_services = true
     }
   }
-  depends_on = [google_project_service.servicenetworking, google_service_networking_connection.postgres_private_vpc_connection]
+
+  depends_on = [
+    google_project_service.servicenetworking,
+    google_service_networking_connection.postgres_private_vpc_connection
+  ]
 }
 
 resource "random_password" "root_password" {

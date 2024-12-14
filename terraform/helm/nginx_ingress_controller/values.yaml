@@ -1,0 +1,5 @@
+tolerations:
+  - key: "instance_type"
+    operator: "Equal"
+    value: "spot"
+    effect: "NoSchedule"
