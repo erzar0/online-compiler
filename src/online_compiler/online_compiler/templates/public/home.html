@@ -1,11 +1,49 @@
-{% extends "layout.html" %} {% block content %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
+{% extends "layout.html" %} 
+
+{% block content %}
+<div class="jumbotron text-center bg-primary text-white py-5">
   <div class="container">
-    <h1 class="display-3">Welcome to Online Compiler</h1>
+    <h1 class="display-4">Welcome to Online Compiler</h1>
+    <p class="lead">Write and run your code online in various programming languages!</p>
   </div>
 </div>
-<!-- /.jumbotron -->
 
-<div class="container"></div>
+<div class="container py-4">
+  <form method="POST" class="p-4 border rounded bg-light">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="mb-3">
+      <label for="language" class="form-label"><strong>Select Programming Language:</strong></label>
+      <select name="language" id="language" class="form-select" required>
+        <option value="" disabled selected>Select a language</option>
+        {% for lang in languages %}
+        <option value="{{ lang.id }}" {% if selected_language == lang.id|string %}selected{% endif %}>
+          {{ lang.name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="code" class="form-label"><strong>Write Your Code:</strong></label>
+      <textarea name="code" id="code" class="form-control" rows="10" placeholder="Type your code here..." required>{{ code }}</textarea>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg">Run Code</button>
+    </div>
+  </form>
+
+  {% if error %}
+  <div class="alert alert-danger mt-4">
+    <strong>Error:</strong> {{ error }}
+  </div>
+  {% endif %}
+
+  {% if output %}
+  <div class="alert alert-success mt-4">
+    <h4 class="alert-heading">Output:</h4>
+    <pre class="bg-light p-3 rounded">{{ output }}</pre>
+  </div>
+  {% endif %}
+</div>
 {% endblock %}
