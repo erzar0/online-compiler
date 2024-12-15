@@ -12,7 +12,7 @@ service:
 redis:
   host: redis
   port: 6379
-  password: "your-redis-password"
+  password: ""
 
 postgresql:
   host: db

@@ -44,14 +44,14 @@ resource "google_sql_database_instance" "postgres_instance" {
   ]
 }
 
-resource "random_password" "root_password" {
-  length           = 16
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-}
-
 resource "google_sql_user" "root" {
   name     = "root"
   instance = google_sql_database_instance.postgres_instance.name
-  password = random_password.root_password.result
+  password = var.postgres_root_password
+}
+
+resource "google_sql_database" "judge0" {
+  name     = "judge0"
+  instance = google_sql_database_instance.postgres_instance.name
+  project  = var.project_id
 }

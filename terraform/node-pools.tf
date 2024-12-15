@@ -2,6 +2,18 @@ resource "google_service_account" "kubernetes" {
   account_id = "kubernetes"
 }
 
+resource "google_project_iam_member" "metrics_writer" {
+  project = var.project_id
+  role    = "roles/monitoring.metricWriter"
+  member  = "serviceAccount:${google_service_account.kubernetes.email}"
+}
+
+resource "google_project_iam_member" "log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.kubernetes.email}"
+}
+
 resource "google_container_node_pool" "general" {
   name       = "general"
   cluster    = google_container_cluster.primary.id
@@ -42,6 +54,7 @@ resource "google_container_node_pool" "spot" {
 
   node_config {
     preemptible = true
+    machine_type = "e2-small"
 
     labels = {
       team = "devops"
@@ -57,7 +70,5 @@ resource "google_container_node_pool" "spot" {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
-
   }
-
 }

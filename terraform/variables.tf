@@ -68,3 +68,10 @@ variable "spot_max_nodes" {
   type        = number
   default     = 5
 }
+
+variable "postgres_root_password" {
+  description = "Password for root account in postgres instance"
+  type        = string
+  sensitive   = true
+  nullable    = false
+}
