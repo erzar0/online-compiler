@@ -1,0 +1,105 @@
+version: "3.8"
+
+x-build-args: &build_args
+  INSTALL_PYTHON_VERSION: "3.12"
+  INSTALL_NODE_VERSION: "20"
+
+x-default-volumes: &default_volumes
+  volumes:
+    - ./:/app
+    - node-modules:/app/node_modules
+    - ./dev.db:/tmp/dev.db
+
+services:
+  flask-dev:
+    container_name: flask-dev
+    build:
+      context: .
+      target: development
+      args:
+        <<: *build_args
+    image: "online_compiler-development"
+    ports:
+      - "8080:5000"
+      - "2992:2992"
+    <<: *default_volumes
+
+  judge0:
+    image: erzar0/judge0:latest
+    container_name: judge0
+    ports:
+      - "2358:2358"
+    environment:
+      JUDGE0_TELEMETRY_ENABLE: "false"
+      ENABLE_WAIT_RESULT: "true"
+      ENABLE_COMPILER_OPTIONS: "true"
+      ENABLE_COMMAND_LINE_ARGUMENTS: "true"
+      SUBMISSION_CACHE_DURATION: "30"
+      INTERVAL: "1"
+      COUNT: "50"
+      MAX_QUEUE_SIZE: "100"
+      RAILS_ENV: "production"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "your-redis-password"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "judge0"
+      POSTGRES_PASSWORD: "your-postgres-password"
+      POSTGRES_DB: "judge0"
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: redis:7.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "judge0"
+      POSTGRES_PASSWORD: "your-postgres-password"
+      POSTGRES_DB: "judge0"
+
+  flask-prod:
+    container_name: flask-prod
+    build:
+      context: .
+      target: production
+      args:
+        <<: *build_args
+    image: "online_compiler-production"
+    ports:
+      - "8080:5000"
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: 0
+      LOG_LEVEL: info
+      GUNICORN_WORKERS: 4
+    <<: *default_volumes
+
+  manage:
+    build:
+      context: .
+      target: development
+      args:
+        <<: *build_args
+    entrypoint: flask
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: 0
+    image: "online_compiler-manage"
+    stdin_open: true
+    tty: true
+    <<: *default_volumes
+
+volumes:
+  node-modules:

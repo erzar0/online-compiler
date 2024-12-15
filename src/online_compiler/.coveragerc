@@ -1,0 +1,6 @@
+[run]
+source = online_compiler
+omit = 
+    tests/*
+    autoapp.py
+

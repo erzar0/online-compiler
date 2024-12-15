@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="shortcut icon"
+      href="{{static_url_for('static', filename='build/favicon.ico')}}"
+    />
+    <title>{% block page_title %}Online Compiler{% endblock %}</title>
+    <meta
+      name="description"
+      content="{% block meta_description %}{% endblock %}"
+    />
+    <meta name="author" content="{% block meta_author %}{% endblock %}" />
+
+    <!-- Mobile viewport optimized -->
+    <meta name="viewport" content="width=device-width" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ static_url_for('static', filename='build/main_css.bundle.css') }}"
+    />
+
+    <style>
+      /* Ensure the body and html take full height */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Make the main content area grow to fill the available space */
+      main {
+        flex: 1;
+      }
+
+      /* Footer stays at the bottom */
+      footer {
+        background: #f8f9fa; /* Optional background color */
+        padding: 1em; /* Optional padding */
+        text-align: center; /* Optional alignment */
+      }
+    </style>
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    {% block body %} {% with form=form %} {% include "nav.html" %} {% endwith %}
+
+    <header>{% block header %}{% endblock %}</header>
+
+    <main role="main">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="row">
+        <div class="col-md-12">
+          {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            <a class="close" title="Close" href="#" data-bs-dismiss="alert"
+              >&times;</a
+            >
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+
+    <footer>{% include "footer.html" %}</footer>
+
+    <!-- JavaScript at the bottom for fast page loading -->
+    <script src="{{ static_url_for('static', filename='build/main_js.bundle.js') }}"></script>
+    {% block js %}{% endblock %} {% endblock %}
+  </body>
+</html>
