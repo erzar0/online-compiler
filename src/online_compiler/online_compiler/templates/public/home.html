@@ -39,10 +39,28 @@
   </div>
   {% endif %}
 
-  {% if output %}
+  {% if result %}
   <div class="alert alert-success mt-4">
-    <h4 class="alert-heading">Output:</h4>
-    <pre class="bg-light p-3 rounded">{{ output }}</pre>
+    <h4 class="alert-heading">Execution Details:</h4>
+    {% if result.stdout %}
+    <pre class="bg-light p-3 rounded"><strong>Output:</strong> {{ result.stdout or "" }}</pre>
+    {% endif %}
+    {% if result.stderr %}
+    <pre class="bg-light p-3 rounded"><strong>Error:</strong> {{ result.stderr or "" }}</pre>
+    {% endif %}
+    {% if result.time %}
+    <pre class="bg-light p-3 rounded"><strong>Execution Time:</strong> {{ result.time }} seconds</pre>
+    {% endif %}
+    {% if result.memory %}
+    <pre class="bg-light p-3 rounded"><strong>Memory Used:</strong> {{ result.memory }} KB</pre>
+    {% endif %}
+    <pre class="bg-light p-3 rounded"><strong>Status:</strong> {{ result.status.description }}</pre>
+    {% if result.compile_output %}
+    <pre class="bg-light p-3 rounded"><strong>Compile Output:</strong> {{ result.compile_output}}</pre>
+    {% endif %}
+    {% if result.message %}
+    <pre class="bg-light p-3 rounded"><strong>Message:</strong> {{ result.message or "None" }}</pre>
+    {% endif %}
   </div>
   {% endif %}
 </div>
