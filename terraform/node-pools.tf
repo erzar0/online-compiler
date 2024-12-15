@@ -53,7 +53,7 @@ resource "google_container_node_pool" "spot" {
   }
 
   node_config {
-    preemptible = true
+    preemptible  = true
     machine_type = "e2-small"
 
     labels = {

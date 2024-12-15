@@ -1,5 +1,5 @@
 resource "helm_release" "judge0" {
-  name             = "judge0"
+  name = "judge0"
 
   chart            = "${path.module}/judge0"
   version          = "0.1.0"
@@ -9,7 +9,7 @@ resource "helm_release" "judge0" {
 
   set {
     name  = "redis.host"
-    value = var.redis_ip 
+    value = var.redis_ip
   }
 
   set {
