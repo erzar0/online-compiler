@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: "{{ .Values.image.flask.repository }}:{{ .Values.image.flask.tag }}"
+        ports:
+        - containerPort: 5000
+        env:
+        {{- range $key, $value := .Values.env.flask }}
+        - name: {{ $key }}
+          value: "{{ $value }}"
+        {{- end }}
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
+      tolerations:
+        - key: "instance_type"
+          operator: "Equal"
+          value: "spot"
+          effect: "NoSchedule"

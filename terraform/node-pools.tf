@@ -49,12 +49,12 @@ resource "google_container_node_pool" "spot" {
 
   autoscaling {
     min_node_count = 0
-    max_node_count = 5
+    max_node_count = 3
   }
 
   node_config {
     preemptible  = true
-    machine_type = "e2-small"
+    machine_type = "e2-medium"
 
     labels = {
       team = "devops"

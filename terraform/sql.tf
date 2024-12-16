@@ -55,3 +55,9 @@ resource "google_sql_database" "judge0" {
   instance = google_sql_database_instance.postgres_instance.name
   project  = var.project_id
 }
+
+resource "google_sql_database" "flask" {
+  name     = "flask"
+  instance = google_sql_database_instance.postgres_instance.name
+  project  = var.project_id
+}

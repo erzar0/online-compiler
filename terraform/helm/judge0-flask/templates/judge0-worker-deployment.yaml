@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: judge0-worker
+  labels:
+    app: judge0-worker
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: judge0-worker
+  template:
+    metadata:
+      labels:
+        app: judge0-worker
+    spec:
+      containers:
+        - name: judge0-worker
+          image: "{{ .Values.image.judge0.repository }}:{{ .Values.image.judge0.tag }}"
+          imagePullPolicy: "{{ .Values.image.judge0.pullPolicy }}"
+          command: ["./scripts/workers"]
+          envFrom:
+            - configMapRef:
+                name: judge0-config
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
+      tolerations:
+        - key: "instance_type"
+          operator: "Equal"
+          value: "spot"
+          effect: "NoSchedule"

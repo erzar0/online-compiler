@@ -3,20 +3,10 @@ variable "redis_ip" {
   type        = string
 }
 
-variable "redis_port" {
-  description = "Port of the created redis instance"
-  type        = number
-}
-
 variable "postgres_ip" {
   description = "IP of the created Postgres instance"
   type        = string
 }
-
-# variable "postgres_port" {
-#   description = "Port of the created Postgres instance"
-#   type        = number 
-# }
 
 variable "postgres_root_username" {
   description = "Root username for the created Postgres instance"
@@ -30,8 +20,14 @@ variable "postgres_root_password" {
   default     = "judge0"
 }
 
-variable "postgres_database" {
-  description = "Database name in the created Postgres instance"
+variable "postgres_judge0_database" {
+  description = "Judge0 database name in the created Postgres instance"
   type        = string
   default     = "judge0"
+}
+
+variable "postgres_flask_database" {
+  description = "Flask database name in the created Postgres instance"
+  type        = string
+  default     = "flask"
 }

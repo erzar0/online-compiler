@@ -1,0 +1,60 @@
+replicaCount: 1
+
+image:
+  flask:
+    repository: "erzar0/online-compiler"
+    tag: "latest"
+    pullPolicy: IfNotPresent
+    restartPollisy: always
+  judge0:
+    repository: "judge0/judge0"
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+service:
+  flask:
+    type: ClusterIP
+    port: 5000
+    nodePort: 30000
+  judge0:
+    type: ClusterIP
+    server:
+      ports:
+        - name: api
+          containerPort: 2358
+          hostPort: 2358
+
+env:
+  redis:
+    HOST:
+    PORT: 6379
+    PASSWORD: ""
+
+  postgres:
+    HOST:
+    PORT: 5432
+    USER:
+    PASSWORD:
+
+  flask:
+    FLASK_APP: "autoapp.py"
+    FLASK_DEBUG: 0
+    FLASK_ENV: "production"
+    GUNICORN_WORKERS: 1
+    LOG_LEVEL: "info"
+    # IN PRODUCTION, SET TO A HIGHER NUMBER, LIKE 31556926
+    SEND_FILE_MAX_AGE_DEFAULT: 31556926
+    DATABASE_URL:
+    SECRET_KEY:
+
+  judge0:
+    JUDGE0_TELEMETRY_ENABLE: false
+    ENABLE_WAIT_RESULT: true
+    ENABLE_COMPILER_OPTIONS: true
+    ENABLE_COMMAND_LINE_ARGUMENTS: true
+    SUBMISSION_CACHE_DURATION: 1
+    INTERVAL: 0.1
+    COUNT: 2
+    MAX_QUEUE_SIZE: 100
+    RAILS_ENV: production
+    DATABASE_NAME:
