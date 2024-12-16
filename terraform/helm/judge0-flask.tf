@@ -1,20 +1,25 @@
 resource "random_password" "flask_secret" {
-  length = 32
+  length  = 32
   special = false
 }
 
-resource "helm_release" "judge0" {
-  name = "judge0"
+resource "helm_release" "judge0-flask" {
+  name = "judge0-flask"
 
   chart            = "${path.module}/judge0-flask"
   version          = "0.1.0"
-  namespace        = "judge0"
+  namespace        = "judge0-flask"
   create_namespace = true
   # values           = [file("${path.module}/values-judge0.yaml")]
 
   set {
     name  = "env.redis.HOST"
     value = var.redis_ip
+  }
+
+  set_sensitive {
+    name  = "env.redis.PASSWORD"
+    value = var.redis_password
   }
 
   set {
@@ -27,17 +32,17 @@ resource "helm_release" "judge0" {
     value = var.postgres_root_username
   }
 
-  set {
+  set_sensitive {
     name  = "env.postgres.PASSWORD"
     value = var.postgres_root_password
   }
 
-  set {
+  set_sensitive {
     name  = "env.flask.DATABASE_URL"
     value = "postgresql://${var.postgres_root_username}:${var.postgres_root_password}@${var.postgres_ip}:5432/${var.postgres_flask_database}"
   }
 
-  set {
+  set_sensitive {
     name  = "env.flask.SECRET_KEY"
     value = random_password.flask_secret.result
   }

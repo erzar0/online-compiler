@@ -9,6 +9,7 @@ resource "google_redis_instance" "redis_instance" {
   memory_size_gb = 1
   region         = var.region
   redis_version  = "REDIS_7_2"
+  auth_enabled = true
 
   authorized_network = google_compute_network.main.id
   depends_on         = [google_project_service.redis]

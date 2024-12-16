@@ -28,7 +28,7 @@ env:
   redis:
     HOST:
     PORT: 6379
-    PASSWORD: ""
+    PASSWORD:
 
   postgres:
     HOST:

@@ -3,6 +3,11 @@ variable "redis_ip" {
   type        = string
 }
 
+variable "redis_password" {
+  description = "Password for the created redis instance"
+  type        = string
+}
+
 variable "postgres_ip" {
   description = "IP of the created Postgres instance"
   type        = string
