@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "terraform-state-staging-ajwlicm56y"
+    bucket = "agh-project-sabre-2-terraform"
     prefix = "terraform/state"
   }
 

@@ -10,7 +10,6 @@ resource "helm_release" "judge0-flask" {
   version          = "0.1.0"
   namespace        = "judge0-flask"
   create_namespace = true
-  # values           = [file("${path.module}/values-judge0.yaml")]
 
   set {
     name  = "env.redis.HOST"
