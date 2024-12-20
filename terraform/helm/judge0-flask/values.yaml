@@ -13,9 +13,8 @@ image:
 
 service:
   flask:
-    type: ClusterIP
+    type: LoadBalancer
     port: 5000
-    nodePort: 30000
   judge0:
     type: ClusterIP
     server:
@@ -42,8 +41,6 @@ env:
     FLASK_ENV: "production"
     GUNICORN_WORKERS: 1
     LOG_LEVEL: "info"
-    # IN PRODUCTION, SET TO A HIGHER NUMBER, LIKE 31556926
-    SEND_FILE_MAX_AGE_DEFAULT: 31556926
     DATABASE_URL:
     SECRET_KEY:
 

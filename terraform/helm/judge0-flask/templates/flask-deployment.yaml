@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: flask
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
       app: flask
@@ -13,22 +13,21 @@ spec:
         app: flask
     spec:
       containers:
-      - name: flask
-        image: "{{ .Values.image.flask.repository }}:{{ .Values.image.flask.tag }}"
-        ports:
-        - containerPort: 5000
-        env:
-        {{- range $key, $value := .Values.env.flask }}
-        - name: {{ $key }}
-          value: "{{ $value }}"
-        {{- end }}
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "500m"
-          limits:
-            memory: "2Gi"
-            cpu: "2"
+        - name: flask
+          image: "{{ .Values.image.flask.repository }}:{{ .Values.image.flask.tag }}"
+          ports:
+            - containerPort: 5000
+              port: 5000
+          envFrom:
+            - configMapRef:
+                name: flask-config
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
       tolerations:
         - key: "instance_type"
           operator: "Equal"

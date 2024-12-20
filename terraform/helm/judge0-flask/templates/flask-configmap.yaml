@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+data:
+  FLASK_APP: {{.Values.env.flask.FLASK_APP | quote}}
+  FLASK_DEBUG: {{.Values.env.flask.FLASK_DEBUG | quote}}
+  FLASK_ENV: {{.Values.env.flask.FLASK_ENV | quote}}
+  GUNICORN_WORKERS: {{.Values.env.flask.GUNICORN_WORKERS | quote}}
+  LOG_LEVEL: {{.Values.env.flask.LOG_LEVEL | quote}}
+  SEND_FILE_MAX_AGE_DEFAULT: "31556926"
+  DATABASE_URL: {{.Values.env.flask.DATABASE_URL | quote}}
+  SECRET_KEY: {{.Values.env.flask.SECRET_KEY | quote}}

@@ -18,10 +18,13 @@ spec:
         - name: judge0-worker
           image: "{{ .Values.image.judge0.repository }}:{{ .Values.image.judge0.tag }}"
           imagePullPolicy: "{{ .Values.image.judge0.pullPolicy }}"
-          command: ["./scripts/workers"]
+          env:
+            - name: SYSTEMD_CGROUP_ENABLE_LEGACY_FORCE
+              value: "1"
           envFrom:
             - configMapRef:
                 name: judge0-config
+          command: [./scripts/workers"]
           securityContext:
             privileged: true
           resources:

@@ -15,6 +15,7 @@ resource "google_service_networking_connection" "postgres_private_vpc_connection
   network                 = google_compute_network.main.id
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.postgres_private_ip_address.name]
+  depends_on = [ google_project_service.servicenetworking, google_compute_global_address.postgres_private_ip_address ]
 }
 
 resource "google_sql_database_instance" "postgres_instance" {
@@ -42,12 +43,14 @@ resource "google_sql_database_instance" "postgres_instance" {
     google_project_service.servicenetworking,
     google_service_networking_connection.postgres_private_vpc_connection
   ]
+
 }
 
 resource "google_sql_user" "root" {
-  name     = "root"
-  instance = google_sql_database_instance.postgres_instance.name
-  password = var.postgres_root_password
+  name            = "root"
+  instance        = google_sql_database_instance.postgres_instance.name
+  password        = var.postgres_root_password
+  deletion_policy = "ABANDON"
 }
 
 resource "google_sql_database" "judge0" {

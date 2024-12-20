@@ -9,4 +9,6 @@ module "helm" {
   postgres_root_password   = google_sql_user.root.password
   postgres_judge0_database = google_sql_database.judge0.name
   postgres_flask_database  = google_sql_database.flask.name
+
+  depends_on = [ google_redis_instance.redis_instance, google_sql_database_instance.postgres_instance]
 }

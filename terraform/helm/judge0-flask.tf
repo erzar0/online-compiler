@@ -52,5 +52,6 @@ resource "helm_release" "judge0-flask" {
     value = var.postgres_judge0_database
   }
 
-  timeout = 600
+  timeout    = 600
+  depends_on = [var.redis_ip]
 }

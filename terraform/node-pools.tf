@@ -27,9 +27,15 @@ resource "google_container_node_pool" "general" {
     preemptible  = false
     machine_type = "e2-small"
 
+    linux_node_config {
+      cgroup_mode = "CGROUP_MODE_V1"
+    }
+
     labels = {
       role = "general"
     }
+
+    tags = ["gke-nodes"]
 
     service_account = google_service_account.kubernetes.email
     oauth_scopes = [
@@ -55,6 +61,12 @@ resource "google_container_node_pool" "spot" {
   node_config {
     preemptible  = true
     machine_type = "e2-medium"
+
+    linux_node_config {
+      cgroup_mode = "CGROUP_MODE_V1"
+    }
+
+    tags = ["gke-nodes"]
 
     labels = {
       team = "devops"

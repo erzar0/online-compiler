@@ -11,7 +11,7 @@ resource "google_container_cluster" "primary" {
 
   addons_config {
     http_load_balancing {
-      disabled = false 
+      disabled = false
     }
     horizontal_pod_autoscaling {
       disabled = false
@@ -36,5 +36,7 @@ resource "google_container_cluster" "primary" {
     enable_private_endpoint = false
     master_ipv4_cidr_block  = "172.16.0.0/28"
   }
+
+  deletion_protection = false
 }
 

@@ -5,7 +5,11 @@ metadata:
 spec:
   type: {{.Values.service.flask.type}}
   ports:
-    - port: {{.Values.service.flask.port}}
+    - protocol: TCP
+      port: {{.Values.service.flask.port}}
       targetPort: 5000
+      nodePort: 32222
   selector:
     app: flask
+status:
+  loadBalancer: {}
