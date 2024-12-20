@@ -1,1 +1,1 @@
-![c3-online-compiler (2)](https://github.com/user-attachments/assets/1907f420-780b-4577-875c-9dd3724255c0)
+![online-compiler](https://github.com/user-attachments/assets/170b52b4-22b0-47fe-b3a6-05613428eeae)
