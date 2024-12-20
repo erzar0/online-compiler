@@ -39,3 +39,6 @@ environs==11.0.0
 
 # Requests
 requests==2.32.3
+
+# Metrics
+prometheus_client==0.21.1

@@ -17,7 +17,6 @@ from online_compiler.extensions import (
     migrate,
 )
 
-
 def create_app(config_object="online_compiler.settings"):
     """Create application factory, as explained here: http://flask.pocoo.org/docs/patterns/appfactories/.
 
@@ -31,6 +30,7 @@ def create_app(config_object="online_compiler.settings"):
     register_shellcontext(app)
     register_commands(app)
     configure_logger(app)
+
     return app
 
 

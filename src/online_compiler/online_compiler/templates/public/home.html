@@ -43,10 +43,10 @@
   <div class="alert alert-success mt-4">
     <h4 class="alert-heading">Execution Details:</h4>
     {% if result.stdout %}
-    <pre class="bg-light p-3 rounded"><strong>Output:</strong> {{ result.stdout or "" }}</pre>
+    <pre class="bg-light p-3 rounded"><strong>Output:</strong> {{ result.stdout }}</pre>
     {% endif %}
     {% if result.stderr %}
-    <pre class="bg-light p-3 rounded"><strong>Error:</strong> {{ result.stderr or "" }}</pre>
+    <pre class="bg-light p-3 rounded"><strong>Error:</strong> {{ result.stderr }}</pre>
     {% endif %}
     {% if result.time %}
     <pre class="bg-light p-3 rounded"><strong>Execution Time:</strong> {{ result.time }} seconds</pre>
